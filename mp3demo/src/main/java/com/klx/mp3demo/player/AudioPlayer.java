@@ -137,6 +137,9 @@ public class AudioPlayer implements MediaSourceEventListener{
             @Override
             public void flush(int sampleRateHz, int channelCount, int encoding) {
                 // nothing to here
+                Log.e("xtm","sampleRateHz:"+sampleRateHz+",channelCount:"+channelCount);
+
+
             }
             @Override
             public void handleBuffer(ByteBuffer buffer) {
@@ -232,6 +235,10 @@ public class AudioPlayer implements MediaSourceEventListener{
 
     public void setAudioDataFetch(AudioDataFetch audioDataFetch) {
         this.audioDataFetch = audioDataFetch;
+    }
+
+    public void repeat() {
+        player.setRepeatMode(Player.REPEAT_MODE_ONE);
     }
 
 

@@ -1,5 +1,7 @@
 package com.klx.mp3demo.player;
 
+import android.util.Log;
+
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
 
@@ -19,6 +21,9 @@ public class AudioDataReceiver implements AudioPlayer.AudioDataFetch {
 
     @Override
     public void setAudioDataAsByteBuffer(ByteBuffer buffer, int sampleRate, int channelCount) {
+
+        Log.e("xtm","setAudioDataAsByteBuffer:"+buffer+",sampleRate:"+sampleRate+",channelCount"+channelCount);
+
         //raw PCM data
         ShortBuffer shortBuffer = buffer.asShortBuffer();
         short[] data = new short[shortBuffer.limit()];

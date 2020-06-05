@@ -18,7 +18,9 @@ import androidx.annotation.Nullable;
 
 import com.klx.mp3demo.player.utils.AVConstants;
 import com.klx.mp3demo.player.utils.BaseVisualizer;
+import com.klx.mp3demo.player.utils.ColorUtils;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class BarVisualizer extends BaseVisualizer implements AudioDataReceiver.AudioDataListener {
@@ -97,7 +99,7 @@ public class BarVisualizer extends BaseVisualizer implements AudioDataReceiver.A
                     return;
                 }
 
-                mPaint.setColor(mColor);
+//                mPaint.setColor(mColor);
                 mPaint.setStrokeWidth(mStrokeWidth);
                 if (mPaintStyle == PaintStyle.FILL)
                     mPaint.setStyle(Paint.Style.FILL);
@@ -128,6 +130,28 @@ public class BarVisualizer extends BaseVisualizer implements AudioDataReceiver.A
                     }
 
                     mDestY[mSrcY.length - 1] = randPosY;
+                    //
+                    int len = mSrcY.length;
+                    int value1 = Math.abs(mRawAudioShort[0]);
+                    int value2 = Math.abs(mRawAudioShort[len/2]);
+                    int value3 = Math.abs(mRawAudioShort[len-1]);
+
+                    double r = value1*1.0/32768;
+                    double g = value2*1.0/32768;
+                    double b = value3*1.0/32768;
+
+                    int _r = (int) (r * 255);
+                    int _g = (int) (g * 255);
+                    int _b = (int) (b * 255);
+
+                    Log.e("haha","===>"+_r+"==>"+_g+",==>"+_b);
+                    int argb = Color.argb(255, _r, _g, _b);
+                    if(iColor!=null){
+                        iColor.showColor(argb);
+                    }
+
+                    mPaint.setColor(argb);
+
                 }
 
                 //increment batch count
@@ -156,6 +180,16 @@ public class BarVisualizer extends BaseVisualizer implements AudioDataReceiver.A
     public void setRawAudioBytes(short[] shorts) {
         this.mRawAudioShort = shorts;
         this.invalidate();
+    }
+
+    IColor iColor;
+
+    public void setiColor(IColor iColor) {
+        this.iColor = iColor;
+    }
+
+    public interface IColor{
+        void showColor(int color);
     }
 
 
